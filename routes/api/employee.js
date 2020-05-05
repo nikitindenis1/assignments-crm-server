@@ -87,7 +87,7 @@ router.get("/get-by-id", auth, async (req, res) => {
         'position':1,
         'email':1,
         'avatar':1,
-        'status':1,
+        'active':1,
         'assignments':{
           'title':1,
           'deadline':1,
