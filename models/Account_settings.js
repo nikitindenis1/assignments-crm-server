@@ -20,6 +20,9 @@ const AccountSettingsSchema = new mongoose.Schema({
         type:String,
         default:'english'
     },
+    avatar:{
+        type:String
+    },
     created_at: {
         type: Date,
         default: Date.now

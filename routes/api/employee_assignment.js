@@ -9,22 +9,26 @@ const Employee_assignment = require("../../models/Employee_assignment");
 //@route GET api/employee_assignment/get-by-employee-id
 //@desc get employee assignments by employee id
 //@access Private
-router.get("/get-by-employee-id", async (req, res) => {
-  const employee_id = new ObjectID(req.query.employee_id)
-  const employee_assignment = await Employee_assignment.find({ employee_id });
-  return res.send(successfulBody(employee_assignment));
+router.get("/get-by-employee-id", auth, async (req, res) => {
+  const employee_id = new ObjectID(req.query.employee_id);
+  try {
+    const employee_assignments = await Employee_assignment.find({
+      employee_id,
+    });
+    return res.send(successfulBody(employee_assignments));
+  } catch (error) {
+    return res.send(failureBody('server error'));
+  }
 });
-
 
 //@route GET api/employee_assignment/get-by-id
 //@desc get employee assignments by id
 //@access Private
-router.get("/get-by-id", async (req, res) => {
-  const _id = new ObjectID(req.query._id)
+router.get("/get-by-id", auth, async (req, res) => {
+  const _id = new ObjectID(req.query._id);
   const employee_assignment = await Employee_assignment.findOne({ _id });
   return res.send(successfulBody(employee_assignment));
 });
-
 
 //@route POST api/employee_assignment
 //@desc create and update employee assignments
@@ -50,7 +54,7 @@ router.post("/", auth, async (req, res) => {
   return res.send(successfulBody(employee_assignment));
 });
 
-router.post("/delete", async (req, res) => {
+router.post("/delete", auth, async (req, res) => {
   const { _id } = req.body;
   let id = new ObjectID(_id);
   try {
